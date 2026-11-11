@@ -1,0 +1,27 @@
+.venv/
+node_modules/
+dist/
+.env
+__pycache__/
+.pytest_cache/
+
+.npm-cache/
+
+.secrets/
+
+.private/
+
+# Local credentials, recordings, databases and runtime files
+.env.*
+!.env.example
+*.pem
+*.key
+*.wav
+*.webm
+*.mp3
+*.m4a
+*.pcm
+*.sqlite*
+*.db
+*.log
+.DS_Store

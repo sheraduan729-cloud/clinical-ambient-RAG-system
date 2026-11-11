@@ -1,0 +1,32 @@
+services:
+  intelligence:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      SERVICE: intelligence
+    volumes:
+      - clinical-originals:/app/.private
+      - clinical-keys:/app/.secrets
+    ports: ["127.0.0.1:8002:8080"]
+  ingestion:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      SERVICE: ingestion
+      INTELLIGENCE_URL: http://intelligence:8080
+      FRONTEND_ORIGINS: http://localhost:5173,http://127.0.0.1:5173
+    ports: ["127.0.0.1:8001:8080"]
+    depends_on: [intelligence]
+  frontend:
+    build:
+      context: frontend
+      args:
+        VITE_INGESTION_URL: http://127.0.0.1:8001
+    ports: ["127.0.0.1:5173:8080"]
+    depends_on: [ingestion]
+
+volumes:
+  clinical-originals:
+  clinical-keys:
